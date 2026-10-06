@@ -463,23 +463,71 @@ footer{padding:36px 16px 44px;text-align:center;color:var(--ink-3);background:va
     arm();
   });
 
-  // Keep the hero video playing when coming back to the page
-  // (browser Back button restores the page from cache with the video paused).
-  function resume(){
-    if (reduce) return;
+  // ---- Keep the hero video playing ----
+  // Back/forward navigation (page restored from the browser cache), tab switches,
+  // power-saving modes and the browser's own "pause off-screen video" logic can all
+  // leave the video paused. Several independent triggers plus a small watchdog
+  // make sure it always resumes while the hero is on screen.
+  var heroVisible = true, reloads = 0;
+  function ensurePlaying(){
+    if (reduce || document.hidden || v.ended || !v.paused || !heroVisible) return;
+    // After a cache restore the media can be left empty; reload it (max twice).
+    if (v.readyState === 0 && v.networkState !== 2 && reloads < 2){ reloads++; try{ v.load(); }catch(e){} }
+    v.muted = true;
     var pr = v.play();
     if (pr && pr.catch) pr.catch(function(){});
   }
+  function ensureBurst(){
+    ensurePlaying();
+    [250, 800, 1800].forEach(function(t){ setTimeout(ensurePlaying, t); });
+  }
   window.addEventListener('pageshow', function(e){
-    if (e.persisted){ reveal(); drawThumbs(); }
-    resume();
+    if (e.persisted){ reveal(); drawThumbs(); wake(); }
+    ensureBurst();
   });
-  document.addEventListener('visibilitychange', function(){
-    if (!document.hidden) resume();
-  });
-  v.addEventListener('pause', function(){
-    if (document.hidden || v.ended || reduce) return;
-    setTimeout(function(){ if (v.paused && !document.hidden) resume(); }, 120);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) ensureBurst(); });
+  window.addEventListener('focus', ensurePlaying);
+  v.addEventListener('pause', function(){ setTimeout(ensurePlaying, 150); });
+  v.addEventListener('canplay', ensurePlaying);
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      heroVisible = es[0].isIntersecting;
+      if (heroVisible) ensurePlaying();
+    }, {threshold:.05}).observe(hero);
+  }
+
+  // "Frozen frame" recovery: the video may report paused=false yet not advance (or
+  // not repaint) after Back/forward. Nudge repaint + decoder, escalating if needed.
+  function wake(){
+    v.style.opacity = '0.999';                       // force a repaint of the layer
+    requestAnimationFrame(function(){ v.style.opacity = ''; });
+    try{ v.currentTime = v.currentTime; }catch(e){}   // re-seek wakes a stalled decoder
+  }
+  var lastT = -1, stuck = 0;
+  setInterval(function(){
+    if (reduce || document.hidden || v.ended || !heroVisible){ lastT = -1; stuck = 0; return; }
+    var moving = !v.paused && v.currentTime !== lastT;
+    lastT = v.currentTime;
+    if (moving){ stuck = 0; return; }
+    stuck++;
+    v.muted = true; v.playbackRate = 1;
+    if (v.paused) ensurePlaying(); else { var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }
+    if (stuck === 2) wake();
+    // Still stuck after ~3s with data available: reload the clip and resume from where it was
+    if (stuck >= 4 && (v.readyState >= 2 || v.networkState !== 2) && reloads < 3){
+      reloads++; stuck = 0;
+      var t = v.currentTime || 0;
+      v.addEventListener('loadeddata', function once(){
+        v.removeEventListener('loadeddata', once);
+        try{ v.currentTime = t; }catch(e){}
+        var p2 = v.play(); if (p2 && p2.catch) p2.catch(function(){});
+      });
+      try{ v.load(); }catch(e){}
+    }
+  }, 700);
+  // Last resort (e.g. autoplay blocked by power saving): first touch/click/scroll restarts it
+  ['pointerdown','touchstart','keydown','scroll'].forEach(function(t){
+    window.addEventListener(t, ensurePlaying, {passive:true});
   });
 
   // Below-the-fold reveals
