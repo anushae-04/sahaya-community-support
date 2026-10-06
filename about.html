@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sahaya — About</title>
+<meta name="description" content="Sahaya is a community support platform that helps neighbours ask for practical help and offer it to others.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{--bg:#B6C3B0;--paper:#E3E8DE;--ink:#10201F;--ink-2:#2E3D3A;--ink-3:#4E5E58;--orange:#E8732A;--orange-2:#F3A15E;--teal:#0E7C86;--panel:#0F1D1C;--panel-2:#172A28;--line:rgba(16,32,31,.14);--serif:'Instrument Serif',Georgia,serif;--sans:'Manrope',Arial,sans-serif;--mono:'JetBrains Mono',monospace;--ease:cubic-bezier(.2,.7,.1,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,var(--bg) 0,var(--paper) 560px,var(--paper) 100%),var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.wrap{position:relative;z-index:2;max-width:1180px;margin:auto;padding:0 28px}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.6s var(--ease)}
+#gl.ready{opacity:1}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;background:linear-gradient(90deg,var(--teal),var(--orange));transform-origin:left;transform:scaleX(0);pointer-events:none}
+.top{padding:24px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.brand{font-weight:700;letter-spacing:.22em;font-size:13px;display:flex;align-items:center;gap:10px}
+.brand svg{width:25px}
+.back{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.back:hover{text-decoration:underline}
+.hero{padding:84px 0 56px;display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:end}
+.kicker{font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:20px}
+.kicker b{color:var(--orange);font-weight:500}
+h1{font:400 clamp(48px,6.6vw,92px)/.92 var(--serif);letter-spacing:-.02em;max-width:760px}
+h1 em{color:var(--teal)}
+.intro{font-size:16px;line-height:1.7;color:var(--ink-2);max-width:450px}
+.section-label{font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;gap:14px;margin:6px 0 18px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line);transform-origin:left;transform:scaleX(0);transition:transform 1.4s var(--ease) .3s}
+.section-label.in::after,html:not(.js) .section-label::after{transform:scaleX(1)}
+
+/* mission statement */
+.mission{padding:10px 0 70px;display:grid;grid-template-columns:1.3fr .7fr;gap:50px;align-items:start}
+.mission p.big{font:400 clamp(30px,3.6vw,52px)/1.06 var(--serif);letter-spacing:-.01em}
+.mission p.big em{color:var(--teal)}
+.mission .side{font-size:14.5px;line-height:1.7;color:var(--ink-2);display:flex;flex-direction:column;gap:14px}
+
+/* principles */
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-bottom:70px}
+.pr{border-radius:22px;padding:26px;border:1px solid var(--line);background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.pr .no{font:500 10px var(--mono);letter-spacing:.16em;color:var(--orange);margin-bottom:18px;display:block}
+.pr h3{font:400 clamp(24px,2.2vw,30px)/1.02 var(--serif);margin-bottom:10px}
+.pr p{font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+
+/* services list */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:70px}
+.service{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:24px;border-radius:22px;color:var(--paper);background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid rgba(255,255,255,.07);box-shadow:0 24px 50px -30px rgba(7,16,15,.7);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.service::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(243,161,94,.22),transparent 60%)}
+.service:hover::before,.service:focus-visible::before{opacity:1}
+.service.in.done:hover,.service.in.done:focus-visible{transform:translateY(-5px);box-shadow:0 36px 60px -30px rgba(7,16,15,.85)}
+.service:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.service .tag{font:500 9.5px var(--mono);letter-spacing:.16em;color:rgba(227,232,222,.5);margin-bottom:18px}
+.service h3{font:400 clamp(24px,2.1vw,30px)/1.02 var(--serif);margin-bottom:10px}
+.service p{font-size:13.5px;line-height:1.6;color:rgba(227,232,222,.72);margin-bottom:20px}
+.service .go{margin-top:auto;font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--orange-2);display:flex;justify-content:space-between;align-items:center}
+.service .go i{font-style:normal;transition:transform .4s var(--ease)}
+.service:hover .go i{transform:translateX(5px)}
+.service.wide{grid-column:span 2;background:linear-gradient(135deg,#2B1B12 0%,#173431 55%,#0F1D1C 100%);border-color:rgba(243,161,94,.3)}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:70px}
+.step{border-radius:22px;padding:26px;border:1px solid var(--line);background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.step .no{font:500 10px var(--mono);letter-spacing:.16em;color:var(--orange);margin-bottom:18px;display:block}
+.step h4{font:400 clamp(24px,2.2vw,30px)/1.02 var(--serif);margin-bottom:10px}
+.step p{font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+
+/* faq */
+.faq{display:grid;gap:10px;padding-bottom:70px;max-width:860px}
+.faq details{border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:0 22px;transition:background .3s}
+.faq details[open]{background:rgba(255,255,255,.8)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 0;font:400 clamp(20px,2vw,26px)/1.15 var(--serif);display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:500 18px var(--mono);color:var(--orange);transition:transform .3s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq summary:focus-visible{outline:2px solid var(--orange);outline-offset:4px;border-radius:8px}
+.faq details p{font-size:14px;line-height:1.7;color:var(--ink-2);padding:0 0 20px;max-width:680px}
+
+/* closing */
+.closing{text-align:center;padding:30px 0 110px}
+.closing p{font:400 clamp(32px,4vw,58px)/1.02 var(--serif);max-width:820px;margin:0 auto 34px}
+.closing p em{color:var(--teal)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 24px;border-radius:999px;font-weight:700;font-size:14px;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.btn .arr{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink)}
+.btn .arr svg{width:14px;height:14px;fill:none;stroke:var(--paper);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn.primary{color:#fff;background:linear-gradient(180deg,var(--orange-2),var(--orange));box-shadow:0 12px 28px -10px rgba(232,115,42,.65),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn.ghost{border:1px solid var(--ink);color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+
+.footer{padding:30px 0 45px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font:500 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.js .sr{opacity:0;transform:translateY(34px);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--d,0)*110ms);will-change:opacity,transform}
+.js .sr.in{opacity:1;transform:none;filter:none}
+.js .sr.in.done{transition-delay:0s;will-change:auto}
+.js .service.sr{transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease),box-shadow .5s var(--ease)}
+.js .service.sr.in.done{transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+@media(max-width:940px){.principles{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.service.wide{grid-column:1/-1}.steps{grid-template-columns:1fr}.mission{grid-template-columns:1fr;gap:26px}}
+@media(max-width:800px){
+.wrap{padding:0 16px}.top{padding:18px 0}
+.hero{grid-template-columns:1fr;padding:55px 0 38px;gap:28px}
+.principles,.grid{grid-template-columns:1fr}
+.footer{flex-direction:column}
+.js .sr{transition-delay:0s!important}}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+.js .sr,.js .sr.in,.section-label::after{transition:none!important;opacity:1!important;transform:none!important;filter:none!important}
+.progress{display:none}}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header class="top sr" style="--d:0">
+    <a class="brand" href="./index.html" aria-label="Back to Sahaya home">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 15c0-6 5-10 11-10 4 0 7 2 9 4l-6 1-3 3-6 3z" fill="#0E7C86"/><path d="M12 13l4-3 7-1-6 6c-2 2-5 3-8 3z" fill="#E8732A"/></svg>
+      SAHAYA
+    </a>
+    <a class="back" href="./index.html">← Back to Sahaya</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="kicker sr" style="--d:1"><b>About</b> · Sahaya</div>
+        <h1 class="sr" style="--d:2">A helping hand for <em>every</em> neighbourhood.</h1>
+      </div>
+      <p class="intro sr" style="--d:3">Sahaya is a community support platform. It helps people ask for practical help when they need it, and gives neighbours a simple way to offer it.</p>
+    </section>
+
+    <div class="section-label sr" style="--d:0">Our purpose</div>
+
+    <section class="mission">
+      <p class="big sr" style="--d:0">Every neighbourhood has people who need help and people who can help. Sahaya exists to <em>connect them</em> clearly, safely and kindly.</p>
+      <div class="side sr" style="--d:2">
+        <p>Needs like medicine, food, a ride to the hospital or a safe place to stay are often solved by someone nearby. The hard part is knowing who to ask and how to ask.</p>
+        <p>Sahaya makes that first step easier. You say what you need, we help you put it into a clear request, and you share it with people you trust.</p>
+      </div>
+    </section>
+
+    <div class="section-label sr" style="--d:0">What we believe</div>
+
+    <section class="principles">
+      <article class="pr sr" style="--d:0"><span class="no">01</span><h3>Dignity first</h3><p>Asking for help should never feel like a burden. Every request is treated with respect, whatever the need.</p></article>
+      <article class="pr sr" style="--d:1"><span class="no">02</span><h3>Privacy by design</h3><p>The request pages run in your browser. Nothing you type is sent to Sahaya. You decide what to share and with whom.</p></article>
+      <article class="pr sr" style="--d:2"><span class="no">03</span><h3>Safety together</h3><p>Every page carries plain safety tips for both people asking and people helping, and points to emergency numbers.</p></article>
+      <article class="pr sr" style="--d:3"><span class="no">04</span><h3>Local and human</h3><p>Help works best between people who live near each other. Sahaya supports that, rather than replacing it.</p></article>
+    </section>
+
+    <div class="section-label sr" style="--d:0">What you can do here</div>
+
+    <section class="grid" aria-label="Sahaya services">
+      <a class="service wide sr" href="./services.html" style="--d:0">
+        <span class="tag">GET HELP</span>
+        <h3>Ask for the help you need</h3>
+        <p>Choose a service, fill in a short form, and Sahaya prepares a clear request you can copy or send on WhatsApp to a neighbour, volunteer group or local organisation.</p>
+        <span class="go"><span>See all services</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./voulenteer.html" style="--d:1">
+        <span class="tag">GIVE HELP</span>
+        <h3>Volunteer</h3>
+        <p>Offer your time, skills or a vehicle, and share a short volunteer profile with your society or group.</p>
+        <span class="go"><span>Become a volunteer</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./medicine.html" style="--d:0">
+        <span class="tag">SERVICE 01</span>
+        <h3>Medicine</h3>
+        <p>Request essential medicines, or find someone nearby who can help collect and deliver them.</p>
+        <span class="go"><span>Medicine help</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./food.html" style="--d:1">
+        <span class="tag">SERVICE 02</span>
+        <h3>Food</h3>
+        <p>Find meals and groceries, or ask neighbours who can share food with you.</p>
+        <span class="go"><span>Food help</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./transport.html" style="--d:2">
+        <span class="tag">SERVICE 03</span>
+        <h3>Transport</h3>
+        <p>Arrange a ride to a hospital, clinic or essential appointment.</p>
+        <span class="go"><span>Transport help</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./shelter.html" style="--d:0">
+        <span class="tag">SERVICE 04</span>
+        <h3>Shelter</h3>
+        <p>Look for a safe place to stay for a short time, including after a disaster or emergency.</p>
+        <span class="go"><span>Find shelter</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./disabilityassistance.html" style="--d:1">
+        <span class="tag">SERVICE 05</span>
+        <h3>Disability assistance</h3>
+        <p>Practical help with mobility, daily tasks and care, shaped around what works for you.</p>
+        <span class="go"><span>Get assistance</span><i>→</i></span>
+      </a>
+      <a class="service sr" href="./community.html" style="--d:2">
+        <span class="tag">SERVICE 06</span>
+        <h3>Financial and community support</h3>
+        <p>Find local aid, welfare information and community groups during a difficult time.</p>
+        <span class="go"><span>Get support</span><i>→</i></span>
+      </a>
+    </section>
+
+    <div class="section-label sr" style="--d:0">How it works</div>
+
+    <section class="steps">
+      <article class="step sr" style="--d:0"><span class="no">01</span><h4>Say what you need</h4><p>Pick a service and fill in only what you are comfortable sharing. The request builds as you type.</p></article>
+      <article class="step sr" style="--d:1"><span class="no">02</span><h4>Share it yourself</h4><p>Copy the request or send it on WhatsApp to a neighbour, family member, society committee or volunteer group.</p></article>
+      <article class="step sr" style="--d:2"><span class="no">03</span><h4>Confirm and say thanks</h4><p>Agree on the details, follow the safety tips, and let your helper know once it has worked out.</p></article>
+    </section>
+
+    <div class="section-label sr" style="--d:0">Questions</div>
+
+    <section class="faq">
+      <details class="sr" style="--d:0"><summary>Is Sahaya an emergency service?</summary><p>No. If someone is in danger or needs urgent medical care, call 112, or 108 for an ambulance, straight away. Sahaya is for everyday practical needs and supports emergency services without replacing them.</p></details>
+      <details class="sr" style="--d:1"><summary>Does Sahaya store what I type?</summary><p>No. The request pages only prepare text in your browser so you can copy it or share it yourself. Nothing is sent to Sahaya. Avoid adding details you would not want the person receiving it to see.</p></details>
+      <details class="sr" style="--d:2"><summary>Can I ask for help on behalf of someone else?</summary><p>Yes. You can fill in a request for a parent, neighbour or friend. Use their area and the contact details they are happy to share.</p></details>
+      <details class="sr" style="--d:3"><summary>Who can volunteer?</summary><p>Anyone who wants to help. Choose the ways you are comfortable helping, share a short profile with a group you trust, and follow the safety tips on the volunteer page.</p></details>
+    </section>
+
+    <section class="closing sr" style="--d:0">
+      <p>Small acts can change a neighbourhood. <em>Start with one.</em></p>
+      <div class="cta-row">
+        <a class="btn primary" href="./services.html">Find help<span class="arr"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span></a>
+        <a class="btn ghost" href="./voulenteer.html">Volunteer<span class="arr"><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer sr" style="--d:0">
+    <span>Sahaya · Community Support Platform</span>
+    <span>In an emergency call 112</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var bar=document.getElementById('progress'),ticking=false;
+  function update(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight;bar.style.transform='scaleX('+(max>0?Math.min(1,Math.max(0,h.scrollTop/max)):0)+')';ticking=false}
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});
+  window.addEventListener('resize',update);update();
+
+  function show(el){
+    el.classList.add('in');
+    setTimeout(function(){el.classList.add('done')},1500);
+    if(el.classList.contains('service')||el.classList.contains('step')||el.classList.contains('pr'))window.dispatchEvent(new Event('sahaya:pulse'));
+  }
+  var els=document.querySelectorAll('.sr');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    Array.prototype.forEach.call(els,function(el){io.observe(el)});
+  }else{Array.prototype.forEach.call(els,show)}
+
+  Array.prototype.forEach.call(document.querySelectorAll('.service'),function(c){
+    c.addEventListener('pointermove',function(e){
+      var r=c.getBoundingClientRect();
+      c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      c.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile=window.innerWidth<800;
+  if(typeof THREE==='undefined')return;
+  var canvas=document.getElementById('gl'),renderer;
+  try{renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:!isMobile,powerPreference:'low-power'})}catch(e){return}
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.setClearColor(0x000000,0);
+  var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(55,1,0.1,100);
+  camera.position.set(0,0,15);
+  var TEAL=new THREE.Color(0x0E7C86),ORANGE=new THREE.Color(0xE8732A),INK=new THREE.Color(0x2E3D3A),SAGE=new THREE.Color(0x6C8F86);
+  var scrollP=0;
+  function readScroll(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight;scrollP=max>0?Math.min(1,Math.max(0,h.scrollTop/max)):0}
+  window.addEventListener('scroll',readScroll,{passive:true});readScroll();
+  var world=new THREE.Group();scene.add(world);
+
+  var N=isMobile?900:1900,pos=new Float32Array(N*3),col=new Float32Array(N*3);
+  for(var i=0;i<N;i++){
+    var r=6+Math.random()*11,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
+    pos[i*3]=r*Math.sin(ph)*Math.cos(th);pos[i*3+1]=r*Math.sin(ph)*Math.sin(th);pos[i*3+2]=r*Math.cos(ph);
+    var pick=Math.random(),c=pick<.45?TEAL:pick<.62?ORANGE:pick<.85?SAGE:INK;
+    col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;
+  }
+  var dustGeo=new THREE.BufferGeometry();
+  dustGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  dustGeo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  var dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({size:0.075,vertexColors:true,transparent:true,opacity:.7,depthWrite:false}));
+  world.add(dust);
+
+  var NODES=isMobile?46:78,nodes=[];
+  while(nodes.length<NODES){
+    var v=new THREE.Vector3((Math.random()*2-1)*5.2,(Math.random()*2-1)*5.2,(Math.random()*2-1)*5.2);
+    if(v.length()<=5.2&&v.length()>1.2)nodes.push(v);
+  }
+  var linePts=[];
+  for(var a=0;a<nodes.length;a++)for(var b=a+1;b<nodes.length;b++){
+    if(nodes[a].distanceTo(nodes[b])<2.7)linePts.push(nodes[a].x,nodes[a].y,nodes[a].z,nodes[b].x,nodes[b].y,nodes[b].z);
+  }
+  var lineGeo=new THREE.BufferGeometry();
+  lineGeo.setAttribute('position',new THREE.Float32BufferAttribute(linePts,3));
+  var lineMat=new THREE.LineBasicMaterial({color:0x0E7C86,transparent:true,opacity:.32});
+  world.add(new THREE.LineSegments(lineGeo,lineMat));
+  var nodeArr=new Float32Array(NODES*3);
+  nodes.forEach(function(n,i){nodeArr[i*3]=n.x;nodeArr[i*3+1]=n.y;nodeArr[i*3+2]=n.z});
+  var nodeGeo=new THREE.BufferGeometry();
+  nodeGeo.setAttribute('position',new THREE.BufferAttribute(nodeArr,3));
+  world.add(new THREE.Points(nodeGeo,new THREE.PointsMaterial({size:0.2,color:0xE8732A,transparent:true,opacity:.95,depthWrite:false})));
+
+  var beacon=new THREE.Group();scene.add(beacon);
+  var core=new THREE.Mesh(new THREE.SphereGeometry(0.42,32,32),new THREE.MeshBasicMaterial({color:0xE8732A}));
+  var halo=new THREE.Mesh(new THREE.SphereGeometry(0.8,32,32),new THREE.MeshBasicMaterial({color:0xF3A15E,transparent:true,opacity:.28,depthWrite:false}));
+  beacon.add(core);beacon.add(halo);
+  var ringGroup=new THREE.Group();ringGroup.rotation.x=-1.05;beacon.add(ringGroup);
+  var rings=[],RING_COUNT=7,RING_LIFE=4.6;
+  for(var k=0;k<RING_COUNT;k++){
+    var m=new THREE.Mesh(new THREE.RingGeometry(0.98,1,128),new THREE.MeshBasicMaterial({color:0xE8732A,transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));
+    m.userData.age=RING_LIFE+1;ringGroup.add(m);rings.push(m);
+  }
+  function spawnRing(){for(var q=0;q<rings.length;q++){if(rings[q].userData.age>=RING_LIFE){rings[q].userData.age=0;return}}}
+  var lastPulse=0;
+  window.addEventListener('sahaya:pulse',function(){var now=performance.now();if(now-lastPulse>450){lastPulse=now;spawnRing()}});
+
+  function resize(){
+    var w=window.innerWidth,h=window.innerHeight;isMobile=w<800;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize',resize);resize();
+
+  var mx=0,my=0,tx=0,ty=0;
+  window.addEventListener('pointermove',function(e){tx=(e.clientX/window.innerWidth-.5)*2;ty=(e.clientY/window.innerHeight-.5)*2},{passive:true});
+
+  var clock=new THREE.Clock(),sp=0,nextAuto=0.6,cA=new THREE.Color();
+  function frame(){
+    var dt=Math.min(clock.getDelta(),0.05),t=clock.elapsedTime;
+    sp+=(scrollP-sp)*Math.min(1,dt*4);
+    mx+=(tx-mx)*Math.min(1,dt*3);my+=(ty-my)*Math.min(1,dt*3);
+    world.rotation.y=t*0.045+sp*Math.PI*2.2;
+    world.rotation.x=Math.sin(t*0.12)*0.08+sp*0.9;
+    dust.rotation.y=-t*0.012;
+    var swing=isMobile?0.8:3.4,bx=Math.cos(sp*Math.PI*2)*swing,by=Math.sin(sp*Math.PI*2)*0.9+0.2;
+    beacon.position.set(bx,by,0);world.position.set(bx,by,0);
+    camera.position.set(mx*0.9,-my*0.6,15-sp*5.5);
+    camera.lookAt(bx*0.25,by*0.25,0);
+    cA.copy(TEAL).lerp(ORANGE,sp);lineMat.color.copy(cA);lineMat.opacity=0.28+sp*0.14;
+    core.scale.setScalar(1+Math.sin(t*3.2)*0.08);
+    halo.scale.setScalar(1+Math.sin(t*1.6)*0.18+sp*0.3);
+    halo.material.opacity=0.22+Math.sin(t*1.6)*0.06;
+    nextAuto-=dt;if(nextAuto<=0){spawnRing();nextAuto=2.4}
+    for(var q=0;q<rings.length;q++){
+      var rg=rings[q],d=rg.userData;
+      if(d.age<RING_LIFE){
+        d.age+=dt;var p=Math.min(1,d.age/RING_LIFE),s=0.6+p*12;
+        rg.scale.set(s,s,1);rg.material.opacity=Math.pow(1-p,1.6)*0.55;
+      }else rg.material.opacity=0;
+    }
+    renderer.render(scene,camera);
+    if(!reduce)requestAnimationFrame(frame);
+  }
+  if(reduce)frame();else requestAnimationFrame(frame);
+  requestAnimationFrame(function(){canvas.classList.add('ready')});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sahaya — Kerala Emergency Numbers</title>
+<meta name="description" content="Important emergency and support numbers for people in Kerala.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --bg:#B6C3B0;--paper:#E3E8DE;--ink:#10201F;--ink-2:#2E3D3A;
+  --ink-3:#4E5E58;--orange:#E8732A;--orange-2:#F3A15E;
+  --teal:#0E7C86;--panel:#0F1D1C;--panel-2:#172A28;
+  --line:rgba(16,32,31,.14);--serif:'Instrument Serif',Georgia,serif;
+  --sans:'Manrope',Arial,sans-serif;--mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,var(--bg) 0,var(--paper) 520px,var(--paper) 100%) fixed,var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.wrap{position:relative;z-index:2;max-width:1180px;margin:auto;padding:0 28px}
+
+/* Three.js background canvas */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.6s var(--ease)}
+#gl.ready{opacity:1}
+
+/* scroll progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;background:linear-gradient(90deg,var(--teal),var(--orange));
+  transform-origin:left;transform:scaleX(0);pointer-events:none}
+
+/* live scroll readout */
+.hud{position:fixed;left:max(16px,2.4vw);bottom:22px;z-index:3;font:500 9px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);
+  display:flex;align-items:center;gap:10px;pointer-events:none}
+.hud i{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(232,115,42,.6);animation:beat 2s infinite}
+@keyframes beat{70%{box-shadow:0 0 0 10px rgba(232,115,42,0)}100%{box-shadow:0 0 0 0 rgba(232,115,42,0)}}
+
+.top{padding:24px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{font-weight:700;letter-spacing:.22em;font-size:13px;display:flex;align-items:center;gap:10px}
+.brand svg{width:25px}
+.back{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.back:hover{text-decoration:underline}
+.hero{padding:80px 0 52px;display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:end}
+.kicker{font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:20px}
+.kicker b{color:var(--orange)}
+h1{font:400 clamp(50px,7vw,92px)/.9 var(--serif);letter-spacing:-.02em;max-width:760px}
+h1 em{color:var(--teal)}
+.intro{font-size:16px;line-height:1.7;color:var(--ink-2);max-width:450px}
+.notice{margin-top:22px;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--orange);border-radius:14px;background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:13px;line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:110px}
+.card{background:linear-gradient(180deg,var(--panel-2),var(--panel));color:var(--paper);border-radius:22px;padding:24px;min-height:190px;display:flex;flex-direction:column;box-shadow:0 24px 50px -30px rgba(7,16,15,.7);position:relative;overflow:hidden}
+.card.emergency{grid-column:span 3;min-height:auto;background:linear-gradient(135deg,#173431,#0F1D1C);border:1px solid rgba(255,255,255,.08)}
+.card h2{font:400 32px/1 var(--serif);margin:9px 0 10px}
+.card p{color:rgba(227,232,222,.72);font-size:13px;line-height:1.55}
+.card .kicker{color:rgba(227,232,222,.55)}
+.number{margin-top:auto;padding-top:22px;font:400 clamp(34px,4vw,54px)/1 var(--serif);color:var(--orange-2)}
+.number small{font:500 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(227,232,222,.55);display:block;margin-bottom:7px}
+.emergency .number{font-size:clamp(48px,6vw,78px);color:#fff}
+.call{display:inline-flex;align-items:center;justify-content:center;margin-top:20px;background:var(--orange);color:#fff;padding:12px 18px;border-radius:999px;font-size:12px;font-weight:700;width:max-content;
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.call:hover{transform:translateY(-2px);box-shadow:0 14px 26px -12px rgba(232,115,42,.8)}
+.section-label{grid-column:1/-1;font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:8px;display:flex;align-items:center;gap:14px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line);transform-origin:left;transform:scaleX(0);transition:transform 1.4s var(--ease) .3s}
+.section-label.in::after,html:not(.js) .section-label::after{transform:scaleX(1)}
+.footer{padding:30px 0 45px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font:500 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+
+/* cursor-following glow inside cards (set by JS) */
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(243,161,94,.22),transparent 60%)}
+.card:hover::before{opacity:1}
+
+/* ---------- SCROLL REVEALS ---------- */
+.js .sr{
+  opacity:0;transform:translateY(34px);filter:blur(6px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);
+  transition-delay:calc(var(--d,0) * 110ms);
+  will-change:opacity,transform;
+}
+.js .sr.in{opacity:1;transform:none;filter:none}
+.js .sr.in.done{transition-delay:0s;will-change:auto}
+.js .section-label{transform:translateX(-24px)}
+.js .section-label.in{transform:none}
+.card{transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.js .card.sr{transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease),box-shadow .5s var(--ease)}
+.card.in.done:hover{transform:translateY(-6px);box-shadow:0 36px 60px -30px rgba(7,16,15,.8)}
+
+@media(max-width:800px){
+ .wrap{padding:0 16px}.hero{grid-template-columns:1fr;padding:55px 0 38px;gap:28px}
+ .grid{grid-template-columns:1fr;padding-bottom:90px}.card,.card.emergency{grid-column:1}
+ .top{padding:18px 0}.footer{flex-direction:column}
+ .js .sr{transition-delay:0s!important}
+ .hud{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .js .sr,.js .sr.in,.section-label::after{transition:none!important;opacity:1!important;transform:none!important;filter:none!important}
+ .progress{display:none}
+ .hud i{animation:none}
+}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="hud" aria-hidden="true"><i></i><span id="hud">Signal 00%</span></div>
+
+<div class="wrap">
+  <header class="top sr" style="--d:0">
+    <a class="brand" href="./index.html" aria-label="Back to Sahaya home">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 15c0-6 5-10 11-10 4 0 7 2 9 4l-6 1-3 3-6 3z" fill="#0E7C86"/><path d="M12 13l4-3 7-1-6 6c-2 2-5 3-8 3z" fill="#E8732A"/></svg>
+      SAHAYA
+    </a>
+    <a class="back" href="./index.html">← Back to Sahaya</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="kicker sr" style="--d:1"><b>Emergency Support</b> · Kerala</div>
+        <h1 class="sr" style="--d:2">Help is only <em>one call</em> away.</h1>
+      </div>
+      <div>
+        <p class="intro sr" style="--d:3">Important emergency and support numbers for people in Kerala. If there is immediate danger or a serious emergency, use the emergency service first.</p>
+        <div class="notice sr" style="--d:4"><strong>For immediate emergencies:</strong> Call <strong>112</strong>. Kerala Police identifies 112 as the Emergency Response Support System number.</div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Kerala emergency numbers">
+      <article class="card emergency sr" style="--d:0">
+        <div class="kicker">01 · Unified emergency response</div>
+        <h2>Emergency Response Support System</h2>
+        <p>For urgent police, fire, ambulance and other emergency assistance.</p>
+        <div class="number"><small>Call now</small>112</div>
+        <a class="call" href="tel:112">Call 112 →</a>
+      </article>
+
+      <div class="section-label sr" style="--d:0">Essential services</div>
+
+      <article class="card sr">
+        <div class="kicker">02 · Medical</div>
+        <h2>Ambulance</h2>
+        <p>Kerala Emergency Medical Service, available for medical emergencies.</p>
+        <div class="number"><small>24/7 service</small>108</div>
+        <a class="call" href="tel:108">Call 108 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">03 · Fire & Rescue</div>
+        <h2>Fire & Rescue</h2>
+        <p>For fires, rescue operations and related emergencies.</p>
+        <div class="number"><small>Emergency</small>101</div>
+        <a class="call" href="tel:101">Call 101 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">04 · Children</div>
+        <h2>Child Helpline</h2>
+        <p>Support for children who need help or protection.</p>
+        <div class="number"><small>Helpline</small>1098</div>
+        <a class="call" href="tel:1098">Call 1098 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">05 · Women</div>
+        <h2>Women Helpline</h2>
+        <p>Support and assistance for women facing an emergency or needing help.</p>
+        <div class="number"><small>Helpline</small>181</div>
+        <a class="call" href="tel:181">Call 181 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">06 · Disaster</div>
+        <h2>District Emergency Operations</h2>
+        <p>For district-level disaster management and emergency coordination.</p>
+        <div class="number"><small>District control room</small>1077</div>
+        <a class="call" href="tel:1077">Call 1077 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">07 · Health</div>
+        <h2>DISHA</h2>
+        <p>Kerala health information and medical support helpline.</p>
+        <div class="number"><small>Health helpline</small>1056</div>
+        <a class="call" href="tel:1056">Call 1056 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">08 · Cyber safety</div>
+        <h2>Cyber Crime</h2>
+        <p>For reporting or seeking help with cybercrime-related incidents.</p>
+        <div class="number"><small>National cybercrime helpline</small>1930</div>
+        <a class="call" href="tel:1930">Call 1930 →</a>
+      </article>
+
+      <article class="card sr">
+        <div class="kicker">09 · Electricity</div>
+        <h2>KSEB</h2>
+        <p>For urgent electricity-related complaints and support.</p>
+        <div class="number"><small>Helpline</small>1912</div>
+        <a class="call" href="tel:1912">Call 1912 →</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer sr" style="--d:0">
+    <span>Sahaya · Community Support Platform</span>
+    <span>Emergency numbers verified from Kerala government sources</span>
+  </footer>
+</div>
+
+<!-- Three.js (classic build, exposes global THREE) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.innerWidth < 800;
+
+  /* ---------- shared scroll state ---------- */
+  var scrollP = 0;          // raw progress 0..1
+  var bar = document.getElementById('progress');
+  var hud = document.getElementById('hud');
+  var ticking = false;
+  function readScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    scrollP = max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+    bar.style.transform = 'scaleX(' + scrollP + ')';
+    var pct = Math.round(scrollP * 100);
+    hud.textContent = 'Signal ' + (pct < 10 ? '0' : '') + pct + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(readScroll); }
+  }, {passive:true});
+  window.addEventListener('resize', readScroll);
+  readScroll();
+
+  /* ---------- DOM reveals ---------- */
+  var cards = document.querySelectorAll('.card.sr:not(.emergency)');
+  Array.prototype.forEach.call(cards, function(el, i){ el.style.setProperty('--d', i % 3); });
+
+  function show(el){
+    el.classList.add('in');
+    setTimeout(function(){ el.classList.add('done'); }, 1500);
+    if (el.classList.contains('card')) window.dispatchEvent(new Event('sahaya:pulse'));
+  }
+  var els = document.querySelectorAll('.sr');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ show(e.target); io.unobserve(e.target); }
+      });
+    }, {threshold:.15, rootMargin:'0px 0px -6% 0px'});
+    Array.prototype.forEach.call(els, function(el){ io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(els, show);
+  }
+
+  /* cursor glow inside cards */
+  Array.prototype.forEach.call(document.querySelectorAll('.card'), function(c){
+    c.addEventListener('pointermove', function(e){
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ---------- Three.js scene ---------- */
+  if (typeof THREE === 'undefined') return;           // CDN blocked: page still works
+  var canvas = document.getElementById('gl');
+  var renderer;
+  try{
+    renderer = new THREE.WebGLRenderer({canvas:canvas, alpha:true, antialias:!isMobile, powerPreference:'low-power'});
+  }catch(e){ return; }                                 // no WebGL: page still works
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+  camera.position.set(0, 0, 15);
+
+  var TEAL = new THREE.Color(0x0E7C86), ORANGE = new THREE.Color(0xE8732A), INK = new THREE.Color(0x2E3D3A), SAGE = new THREE.Color(0x6C8F86);
+
+  var world = new THREE.Group();   // rotates with scroll
+  scene.add(world);
+
+  /* 1) star-dust shell */
+  var N = isMobile ? 900 : 1900;
+  var pos = new Float32Array(N*3), col = new Float32Array(N*3);
+  for (var i=0;i<N;i++){
+    var r = 6 + Math.random()*11;
+    var th = Math.random()*Math.PI*2;
+    var ph = Math.acos(2*Math.random()-1);
+    pos[i*3]   = r*Math.sin(ph)*Math.cos(th);
+    pos[i*3+1] = r*Math.sin(ph)*Math.sin(th);
+    pos[i*3+2] = r*Math.cos(ph);
+    var pick = Math.random();
+    var c = pick < .45 ? TEAL : pick < .62 ? ORANGE : pick < .85 ? SAGE : INK;
+    col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b;
+  }
+  var dustGeo = new THREE.BufferGeometry();
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  dustGeo.setAttribute('color', new THREE.BufferAttribute(col,3));
+  var dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({size:0.075, vertexColors:true, transparent:true, opacity:.7, depthWrite:false}));
+  world.add(dust);
+
+  /* 2) community network: nodes joined to their neighbours */
+  var NODES = isMobile ? 46 : 78, nodes = [];
+  while (nodes.length < NODES){
+    var v = new THREE.Vector3((Math.random()*2-1)*5.2,(Math.random()*2-1)*5.2,(Math.random()*2-1)*5.2);
+    if (v.length() <= 5.2 && v.length() > 1.2) nodes.push(v);
+  }
+  var linePts = [];
+  for (var a=0;a<nodes.length;a++) for (var b=a+1;b<nodes.length;b++){
+    if (nodes[a].distanceTo(nodes[b]) < 2.7){ linePts.push(nodes[a].x,nodes[a].y,nodes[a].z,nodes[b].x,nodes[b].y,nodes[b].z); }
+  }
+  var lineGeo = new THREE.BufferGeometry();
+  lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePts,3));
+  var lineMat = new THREE.LineBasicMaterial({color:0x0E7C86, transparent:true, opacity:.32});
+  world.add(new THREE.LineSegments(lineGeo, lineMat));
+
+  var nodeArr = new Float32Array(NODES*3);
+  nodes.forEach(function(n,i){ nodeArr[i*3]=n.x; nodeArr[i*3+1]=n.y; nodeArr[i*3+2]=n.z; });
+  var nodeGeo = new THREE.BufferGeometry();
+  nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodeArr,3));
+  var nodeMat = new THREE.PointsMaterial({size:0.2, color:0xE8732A, transparent:true, opacity:.95, depthWrite:false});
+  world.add(new THREE.Points(nodeGeo, nodeMat));
+
+  /* 3) beacon core (stays upright) + expanding signal rings */
+  var beacon = new THREE.Group();
+  scene.add(beacon);
+  var core = new THREE.Mesh(new THREE.SphereGeometry(0.42, 32, 32), new THREE.MeshBasicMaterial({color:0xE8732A}));
+  var halo = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshBasicMaterial({color:0xF3A15E, transparent:true, opacity:.28, depthWrite:false}));
+  beacon.add(core); beacon.add(halo);
+
+  var ringGroup = new THREE.Group();
+  ringGroup.rotation.x = -1.05;                        // lay the ripples on a tilted plane
+  beacon.add(ringGroup);
+  var rings = [], RING_COUNT = 7, RING_LIFE = 4.6;
+  for (var k=0;k<RING_COUNT;k++){
+    var m = new THREE.Mesh(new THREE.RingGeometry(0.98, 1, 128),
+      new THREE.MeshBasicMaterial({color:0xE8732A, transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false}));
+    m.userData.age = RING_LIFE + 1;                    // idle until spawned
+    ringGroup.add(m); rings.push(m);
+  }
+  function spawnRing(){
+    for (var q=0;q<rings.length;q++){
+      if (rings[q].userData.age >= RING_LIFE){ rings[q].userData.age = 0; return; }
+    }
+  }
+  var lastPulse = 0;
+  window.addEventListener('sahaya:pulse', function(){
+    var now = performance.now();
+    if (now - lastPulse > 450){ lastPulse = now; spawnRing(); }
+  });
+
+  /* ---------- sizing ---------- */
+  function resize(){
+    var w = window.innerWidth, h = window.innerHeight;
+    isMobile = w < 800;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ---------- input ---------- */
+  var mx = 0, my = 0, tx = 0, ty = 0;
+  window.addEventListener('pointermove', function(e){
+    tx = (e.clientX / window.innerWidth - .5) * 2;
+    ty = (e.clientY / window.innerHeight - .5) * 2;
+  }, {passive:true});
+
+  /* ---------- loop ---------- */
+  var clock = new THREE.Clock(), sp = 0, nextAuto = 0.6;
+  var cA = new THREE.Color(), cB = new THREE.Color();
+  function frame(){
+    var dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    sp += (scrollP - sp) * Math.min(1, dt*4);           // eased scroll
+    mx += (tx - mx) * Math.min(1, dt*3);
+    my += (ty - my) * Math.min(1, dt*3);
+
+    // world turns as you scroll, plus a gentle idle drift
+    world.rotation.y = t*0.045 + sp*Math.PI*2.2;
+    world.rotation.x = Math.sin(t*0.12)*0.08 + sp*0.9;
+    dust.rotation.y = -t*0.012;
+
+    // beacon swings from right -> left -> right across the page
+    var swing = isMobile ? 0.8 : 3.4;
+    var bx = Math.cos(sp*Math.PI*2) * swing;
+    var by = Math.sin(sp*Math.PI*2) * 0.9 + 0.2;
+    beacon.position.set(bx, by, 0);
+    world.position.set(bx, by, 0);
+
+    // camera dollies in with scroll and follows the pointer
+    camera.position.set(mx*0.9, -my*0.6, 15 - sp*5.5);
+    camera.lookAt(bx*0.25, by*0.25, 0);
+
+    // colour the network teal -> orange as you go deeper
+    cA.copy(TEAL).lerp(ORANGE, sp);
+    lineMat.color.copy(cA);
+    lineMat.opacity = 0.28 + sp*0.14;
+
+    // pulsing core
+    var beat = 1 + Math.sin(t*3.2)*0.08;
+    core.scale.setScalar(beat);
+    halo.scale.setScalar(1 + Math.sin(t*1.6)*0.18 + sp*0.3);
+    halo.material.opacity = 0.22 + Math.sin(t*1.6)*0.06;
+
+    // automatic signal every few seconds
+    nextAuto -= dt;
+    if (nextAuto <= 0){ spawnRing(); nextAuto = 2.4; }
+
+    // animate rings outward and fade
+    for (var q=0;q<rings.length;q++){
+      var r = rings[q], d = r.userData;
+      if (d.age < RING_LIFE){
+        d.age += dt;
+        var p = Math.min(1, d.age / RING_LIFE);
+        var s = 0.6 + p*12;
+        r.scale.set(s, s, 1);
+        r.material.opacity = Math.pow(1-p, 1.6) * 0.55;
+      } else {
+        r.material.opacity = 0;
+      }
+    }
+
+    renderer.render(scene, camera);
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  if (reduce){ frame(); }                               // single still frame
+  else { requestAnimationFrame(frame); }
+  requestAnimationFrame(function(){ canvas.classList.add('ready'); });
+})();
+</script>
+</body>
+</html>

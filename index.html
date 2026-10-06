@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sahaya — A helping hand for every neighbourhood</title>
+<meta name="description" content="Sahaya is a community support platform that connects people with nearby volunteers, resources and practical help when they need it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#B6C3B0; --paper:#E3E8DE; --ink:#10201F; --ink-2:#2E3D3A; --ink-3:#4E5E58;
+  --line:rgba(16,32,31,.14); --ghost:#97A992; --orange:#E8732A; --orange-2:#F3A15E;
+  --teal:#0E7C86; --panel:#0F1D1C; --panel-2:#172A28;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --serif:'Instrument Serif','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+  --sans:'Manrope','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:10px;font-weight:500}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:auto;min-height:max(100svh,780px);overflow:hidden;background:var(--bg)}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+/* Ghost "Sahaya": darker colour, gentler fade so it is clearly readable */
+.ghost{
+  position:absolute;left:0;right:0;top:13vh;z-index:1;text-align:center;
+  font-family:var(--serif);font-weight:400;line-height:.9;white-space:nowrap;
+  font-size:clamp(90px,17vw,300px);color:var(--ghost);
+  mix-blend-mode:darken;pointer-events:none;user-select:none;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,rgba(0,0,0,.6) 78%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 0%,#000 55%,rgba(0,0,0,.6) 78%,transparent 100%);
+}
+.ghost i{font-style:italic}
+/* Lighter left overlay so the first letters of the ghost title show through */
+.overlay{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(90deg,color-mix(in srgb,var(--bg) 45%,transparent) 0%,transparent 28%),
+    linear-gradient(0deg,color-mix(in srgb,var(--bg) 55%,transparent) 0%,transparent 28%);
+}
+@supports not (background:color-mix(in srgb,red 50%,blue)){
+  .overlay{background:linear-gradient(90deg,rgba(182,195,176,.45) 0%,transparent 28%),linear-gradient(0deg,rgba(182,195,176,.55),transparent 28%)}
+}
+
+/* reveal primitive */
+.rv{opacity:0;transform:translateY(18px);filter:blur(6px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);
+  transition-delay:calc(var(--d,0) * 90ms)}
+.is-revealed .rv{opacity:1;transform:none;filter:none}
+
+.nav{position:absolute;z-index:4;top:0;left:0;right:0;padding:26px max(16px,4vw);
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.22em;font-size:13px}
+.nav-links{display:flex;gap:34px}
+.nav-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-2);transition:color .3s}
+.nav-links a:hover{color:var(--ink)}
+.nav-right{display:flex;justify-content:flex-end;align-items:center;gap:22px}
+.signin{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-2)}
+.pill-dark{background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.14em;
+  transition:transform .4s var(--ease),background .3s}
+.pill-dark:hover{transform:translateY(-1px);background:var(--ink-2)}
+
+.copy{position:absolute;z-index:3;left:max(16px,4vw);bottom:150px;max-width:470px}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--ink-2);margin-bottom:22px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--ink-2)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5vw,76px);line-height:.95;letter-spacing:-.01em;color:var(--ink)}
+h1 em{font-style:italic;color:var(--teal)}
+.lede{margin-top:22px;font-size:15px;line-height:1.6;color:var(--ink-2);max-width:420px}
+.actions{margin-top:30px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:14px;padding:8px 8px 8px 24px;border-radius:999px;font-weight:600;font-size:14px;color:#fff;
+  background:linear-gradient(180deg,var(--orange-2),var(--orange));box-shadow:0 12px 28px -10px rgba(232,115,42,.65),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 18px 34px -10px rgba(232,115,42,.7),inset 0 1px 0 rgba(255,255,255,.35)}
+.cta .arr{width:34px;height:34px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+.cta .arr svg{width:14px;height:14px}
+.watch{font-size:13px;font-weight:600;border-bottom:1px solid var(--ink);padding-bottom:3px;color:var(--ink)}
+
+.cluster{position:absolute;z-index:3;right:max(16px,4vw);bottom:150px;width:min(400px,34vw)}
+.trust{display:flex;align-items:center;gap:12px;margin-bottom:16px;justify-content:flex-end}
+.avatars{display:flex}
+.avatars span{width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);margin-left:-9px}
+.avatars span:first-child{margin-left:0}
+.avatars span:nth-child(1){background:linear-gradient(135deg,var(--teal),#0A4D55)}
+.avatars span:nth-child(2){background:linear-gradient(135deg,var(--orange-2),var(--orange))}
+.avatars span:nth-child(3){background:linear-gradient(135deg,#6C8F86,var(--ink-2))}
+.avatars span:nth-child(4){background:linear-gradient(135deg,var(--paper),#9BB0A2)}
+.trust .mono{color:var(--ink-2);font-size:9.5px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:14px;color:var(--paper);
+  box-shadow:0 30px 60px -24px rgba(7,16,15,.65),0 8px 20px -8px rgba(7,16,15,.4)}
+.card.c2{margin-top:18px}
+.card-h{display:flex;justify-content:space-between;color:rgba(227,232,222,.6);font-size:9px;margin-bottom:12px}
+.thumb{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;
+  background:radial-gradient(circle at 30% 30%,rgba(14,124,134,.7),transparent 60%),radial-gradient(circle at 75% 75%,rgba(232,115,42,.55),transparent 55%),#13302F}
+.thumb canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .9s var(--ease)}
+.thumb canvas.on{opacity:1}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,16,15,.8),transparent 50%)}
+.thumb .cap{position:absolute;z-index:2;left:10px;bottom:9px;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.stat{font-family:var(--serif);font-size:clamp(24px,2.3vw,32px);line-height:1;margin:14px 0 12px}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(227,232,222,.28)}
+.dots i:first-child{background:var(--orange)}
+
+.strip{position:absolute;z-index:4;left:max(16px,4vw);right:max(16px,4vw);bottom:26px;display:grid;grid-template-columns:1fr auto 1fr;align-items:end}
+.species{display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
+.species em{font-family:var(--serif);font-size:22px;color:var(--ink)}
+.coords{color:var(--ink-2)}
+.replay-wrap{display:flex;justify-content:flex-end}
+.replay{display:inline-flex;align-items:center;gap:10px;padding:11px 18px;border-radius:999px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  background:rgba(227,232,222,.45);border:1px solid var(--line);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background .3s}
+.replay:hover{background:rgba(227,232,222,.75)}
+
+/* ---------- FIELD NOTES ---------- */
+.notes{position:relative;padding:120px max(16px,4vw) 110px;border-top:1px solid var(--line);
+  background:linear-gradient(180deg,var(--bg) 0,var(--paper) 220px,var(--paper) 100%)}
+.notes-in{max-width:1280px;margin:0 auto}
+.n-head{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,5vw,80px);align-items:end;margin-bottom:64px}
+.kicker{color:var(--ink-3);margin-bottom:26px}
+.kicker b{color:var(--orange);font-weight:500}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.2vw,78px);line-height:.98;letter-spacing:-.01em}
+.n-head p{font-size:16px;line-height:1.65;color:var(--ink-2);max-width:460px}
+.bento{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:16px}
+.note{position:relative;border-radius:22px;padding:28px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.45)}
+.note .idx{color:var(--ink-3);display:block;margin-bottom:22px;font-size:9.5px}
+.note h3{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.4vw,36px);line-height:1.02;margin-bottom:14px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink-2)}
+.n1{grid-column:1;grid-row:1/3;background:linear-gradient(180deg,var(--panel-2),var(--panel));border-color:rgba(255,255,255,.07);color:var(--paper);display:flex;flex-direction:column}
+.n1 .idx{color:rgba(227,232,222,.55)}
+.n1 p{color:rgba(227,232,222,.72)}
+.n1 svg{margin-top:auto;width:100%;height:auto;padding-top:24px}
+.n2{grid-column:2;grid-row:1}
+.n3{grid-column:3;grid-row:1}
+.n4{grid-column:2/4;grid-row:2;display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:center}
+.chips{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.chips span{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  padding:6px 11px 6px 7px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.5)}
+.chips i{width:14px;height:14px;border-radius:50%}
+
+.arc{stroke-dasharray:1;stroke-dashoffset:1}
+.in .arc{animation:draw 2.2s var(--ease) .35s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.sr{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--d,0) * 90ms)}
+.sr.in{opacity:1;transform:none}
+
+.band{margin-top:16px;border-radius:26px;background:linear-gradient(180deg,var(--panel-2),var(--panel));color:var(--paper);
+  display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 30px 60px -28px rgba(7,16,15,.6)}
+.stat-c{padding:34px 30px 36px;border-left:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:14px;min-height:190px}
+.stat-c:first-child{border-left:0}
+.stat-c .mono{color:rgba(227,232,222,.55);font-size:9.5px}
+.big{font-family:var(--serif);font-size:clamp(36px,3.6vw,54px);line-height:1}
+.big small{font-size:.45em;color:rgba(227,232,222,.6);margin-left:4px}
+.big em{font-style:italic;color:var(--orange)}
+.vis{margin-top:auto;height:26px;display:flex;align-items:center}
+.ruler{position:relative;width:100%;height:8px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden}
+.ruler::before{content:"";position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--teal),var(--orange));transition:transform 1.6s var(--ease) .4s}
+.in .ruler::before{transform:scaleX(.8)}
+.ticks{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 9px,rgba(255,255,255,.35) 9px 10px)}
+.circles{display:flex;align-items:center;gap:12px}
+.circles i{display:block;border-radius:50%}
+.circles i:first-child{width:22px;height:22px;background:var(--paper)}
+.circles i:last-child{width:26px;height:26px;border:1.5px dashed rgba(227,232,222,.6)}
+.shimmer{width:100%;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--teal),#2C5BD0,var(--teal),#2C5BD0);background-size:300% 100%;animation:shim 4s linear infinite}
+@keyframes shim{to{background-position:300% 0}}
+.closing{margin-top:90px;text-align:center}
+.closing p{font-family:var(--serif);font-size:clamp(32px,4vw,58px);line-height:1.02;max-width:820px;margin:0 auto 34px}
+.closing p em{color:var(--teal)}
+.closing .cta{display:inline-flex}
+footer{padding:36px 16px 44px;text-align:center;color:var(--ink-3);background:var(--paper)}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:900px){
+  .nav-links,.signin{display:none}
+  .nav{grid-template-columns:1fr auto;padding-top:18px}
+  .ghost{font-size:22vw;top:12vh}
+
+  .hero{
+    height:auto;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    padding:38svh 16px 34px;
+    gap:28px;
+  }
+
+  .overlay{
+    background:linear-gradient(
+      0deg,
+      var(--bg) 0%,
+      color-mix(in srgb,var(--bg) 85%,transparent) 42%,
+      transparent 68%
+    );
+  }
+
+  .copy,.cluster{
+    position:relative;
+    left:auto;
+    right:auto;
+    top:auto;
+    bottom:auto;
+    transform:none;
+    max-width:none;
+    width:100%;
+  }
+
+  .copy{max-width:470px}
+  .eyebrow{margin-bottom:16px}
+  h1{font-size:clamp(42px,11vw,62px)}
+  .lede{font-size:14px;margin-top:18px}
+  .actions{
+    margin-top:24px;
+    gap:16px;
+    position:relative;
+    z-index:5;
+  }
+
+  .cluster{width:100%;max-width:440px}
+  .trust{justify-content:flex-start}
+  .card.c2{margin-top:0}
+
+  .strip{
+    position:relative;
+    left:auto;
+    right:auto;
+    top:auto;
+    bottom:auto;
+    transform:none;
+    width:100%;
+    margin-top:4px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    z-index:4;
+    grid-template-columns:1fr auto;
+    gap:14px;
+    align-items:center;
+  }
+
+  .species{min-width:0}
+  .species .mono{font-size:8.5px}
+  .species em{
+    font-size:17px;
+    line-height:1.05;
+  }
+  .replay{padding:9px 13px;font-size:9px}
+  .coords{display:none}
+
+  .n-head{grid-template-columns:1fr;gap:24px}
+  .bento{grid-template-columns:1fr}
+  .n1,.n2,.n3,.n4{grid-column:1;grid-row:auto}
+  .n4{grid-template-columns:1fr}
+  .band{grid-template-columns:1fr 1fr}
+  .stat-c:nth-child(3){border-left:0}
+  .stat-c:nth-child(n+3){border-top:1px solid rgba(255,255,255,.08)}
+  .notes{padding-top:90px}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv,.sr,.thumb canvas,.ruler::before{transition:none!important}
+  .arc{animation:none!important;stroke-dashoffset:0}
+  .shimmer{animation:none}
+}
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero">
+  <video id="vid" src="./bird.mp4" autoplay muted loop playsinline preload="auto"></video>
+  <div class="ghost" aria-hidden="true">Sa<i>haya</i></div>
+  <div class="overlay"></div>
+
+  <nav class="nav">
+    <a class="brand rv" style="--d:0" href="#">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 15c0-6 5-10 11-10 4 0 7 2 9 4l-6 1-3 3-6 3z" fill="#0E7C86"/><path d="M12 13l4-3 7-1-6 6c-2 2-5 3-8 3z" fill="#E8732A"/></svg>
+      SAHAYA
+    </a>
+    <div class="nav-links rv" style="--d:1">
+      <a href="./services.html">GET HELP</a><a href="./volunteer.html">VOLUNTEER</a><a href="./communityy.html">COMMUNITY</a><a href="./about.html">ABOUT</a>
+    </div>
+    <div class="nav-right rv" style="--d:2">
+      <a class="signin" href="#">SIGN IN</a>
+      <a class="pill-dark" href="./services.html">GET HELP</a>
+    </div>
+  </nav>
+
+  <div class="copy">
+    <div class="eyebrow mono rv" style="--d:3">COMMUNITY SUPPORT PLATFORM</div>
+    <h1 class="rv" style="--d:4">A helping hand, <em>when</em> your community needs it</h1>
+    <p class="lede rv" style="--d:5">Sahaya brings people together to solve everyday community needs — from food and blood donations to medicine, transport, learning support, shelter and urgent assistance — through one simple place.</p>
+    <div class="actions rv" style="--d:6">
+      <a class="cta" href="./services.html">Find help
+        <span class="arr"><svg viewBox="0 0 14 14" fill="none" stroke="#E3E8DE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+      </a>
+      <a class="watch" href="./about.html#how">See how Sahaya works →</a>
+    </div>
+  </div>
+
+  <div class="strip rv" style="--d:10">
+    <div class="species"><span class="mono">OUR PURPOSE</span><em>Small acts can change a neighbourhood</em></div>
+    <div class="coords mono">NEARBY PEOPLE · LOCAL RESOURCES</div>
+    <div class="replay-wrap">
+      <button class="replay" id="replay" type="button">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6a4 4 0 1 0 1.2-2.8M2 1.5v2.7h2.7"/></svg>
+        Replay
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <div class="notes-in">
+    <div class="n-head">
+      <div class="sr" style="--d:0">
+        <div class="kicker mono"><b>02</b> WHY SAHAYA — COMMUNITY IMPACT</div>
+        <h2>When people connect, everyday problems become easier to solve</h2>
+      </div>
+      <p class="sr" style="--d:2">Sahaya is designed around a simple idea: people should be able to ask for practical help and discover ways to help others. The platform brings needs, volunteers and useful local resources into one clear community space.</p>
+    </div>
+
+    <div class="bento">
+      <article class="note n1 sr" style="--d:0">
+        <span class="idx mono">NOTE 01 · FIND THE RIGHT HELP</span>
+        <h3>Make a need visible to the right people</h3>
+        <p>Every request is matched by area, skill and urgency, so the nearest able volunteer is alerted first. A single post reaches the people who can actually act, instead of getting lost in a group chat.</p>
+        <svg viewBox="0 0 420 220" fill="none" aria-label="Path from need to help">
+          <path d="M0 150h420" stroke="rgba(227,232,222,.18)" stroke-dasharray="3 5"/>
+          <path class="arc" pathLength="1" d="M40 36C130 20 230 60 300 148" stroke="#E8732A" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="40" cy="36" r="5" fill="#E3E8DE"/>
+          <circle cx="300" cy="148" r="5" fill="#E8732A"/>
+          <ellipse cx="300" cy="150" rx="26" ry="5" stroke="rgba(227,232,222,.4)"/>
+          <text x="40" y="62" fill="rgba(227,232,222,.6)" font-family="monospace" font-size="10" letter-spacing="2">REQUEST</text>
+          <text x="318" y="140" fill="rgba(227,232,222,.6)" font-family="monospace" font-size="10" letter-spacing="2">RESPONSE</text>
+        </svg>
+      </article>
+
+      <article class="note n2 sr" style="--d:2">
+        <span class="idx mono">NOTE 02 · EVERYDAY COMMUNITY NEEDS</span>
+        <h3>Support that matters in real life</h3>
+        <p>From food and blood donation to medicine, transport, education, shelter and support for older people, Sahaya brings common community needs into one accessible place.</p>
+        <div class="chips"><span><i style="background:#0E7C86"></i>Health</span><span><i style="background:#2C5BD0"></i>Food</span><span><i style="background:#E8732A"></i>Education</span><span><i style="background:#6C8F86"></i>Transport</span><span><i style="background:#9BB0A2"></i>Shelter</span></div>
+      </article>
+
+      <article class="note n3 sr" style="--d:3">
+        <span class="idx mono">NOTE 03 · PEOPLE FIRST</span>
+        <h3>Respect, safety and privacy</h3>
+        <p>Community support should be respectful. Sahaya can be designed to minimise unnecessary personal information, encourage responsible responses and keep sensitive details private wherever possible.</p>
+      </article>
+
+      <article class="note n4 sr" style="--d:4">
+        <div>
+          <span class="idx mono">NOTE 04 · EVERYONE CAN CONTRIBUTE</span>
+          <h3>Ask for help. Offer help. Share resources.</h3>
+          <p>Not everyone needs the same kind of support. Sahaya can let people ask for help, volunteer their time or skills, share useful resources and guide neighbours towards organisations that can assist them.</p>
+        </div>
+        <svg viewBox="0 0 160 160" fill="none" aria-label="Eye and target" style="width:100%;max-width:200px;justify-self:center">
+          <circle cx="80" cy="80" r="70" stroke="rgba(16,32,31,.18)"/>
+          <circle cx="80" cy="80" r="46" stroke="rgba(16,32,31,.3)"/>
+          <circle cx="80" cy="80" r="22" stroke="#0E7C86" stroke-width="1.6"/>
+          <circle cx="80" cy="80" r="7" fill="#E8732A"/>
+          <path d="M80 4v28M80 128v28M4 80h28M128 80h28" stroke="rgba(16,32,31,.4)"/>
+        </svg>
+      </article>
+    </div>
+
+    <div class="band sr" style="--d:0">
+      <div class="stat-c"><span class="mono">GOAL</span><div class="big">Local<small>connections</small></div><div class="vis"><div class="ruler"><div class="ticks"></div></div></div></div>
+      <div class="stat-c"><span class="mono">SUPPORT</span><div class="big">Many<small>ways to help</small></div><div class="vis"><div class="circles"><i></i><i></i></div></div></div>
+      <div class="stat-c"><span class="mono">FOCUS</span><div class="big">Real<small>community needs</small></div><div class="vis"><div class="shimmer"></div></div></div>
+      <div class="stat-c"><span class="mono">ACTION</span><div class="big"><em>One request</em></div>
+        <div class="vis"><svg viewBox="0 0 160 26" width="100%" height="26" fill="none"><path class="arc" pathLength="1" d="M2 3C60 3 110 8 156 23" stroke="#E8732A" stroke-width="2" stroke-linecap="round"/></svg></div></div>
+    </div>
+
+    <div class="closing sr" style="--d:0">
+      <p>Your neighbourhood has people who need help — and people who can help. <em>Connect them.</em></p>
+      <a class="cta" href="#">Join the community
+        <span class="arr"><svg viewBox="0 0 14 14" fill="none" stroke="#E3E8DE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+<footer class="mono">SAHAYA — COMMUNITY SUPPORT PLATFORM · CONCEPT</footer>
+
+<script>
+(function(){
+  var REVEAL_AT = 0.8; // seconds — reveal the interface shortly after the video starts
+  var hero = document.getElementById('hero');
+  var v = document.getElementById('vid');
+  v.muted = true;
+  v.autoplay = true;
+  v.loop = true;
+  v.playsInline = true;
+  var canvases = Array.prototype.slice.call(hero.querySelectorAll('canvas[data-crop]'));
+  var revealed = false, started = false, hardTimer = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function drawThumbs(){
+    if (!v.videoWidth) return;
+    canvases.forEach(function(c){
+      try{
+        var p = c.getAttribute('data-crop').split(',').map(parseFloat);
+        var s = p[2] * v.videoWidth;
+        c.getContext('2d').drawImage(v, p[0]*v.videoWidth, p[1]*v.videoHeight, s, s, 0, 0, c.width, c.height);
+        c.classList.add('on');
+      }catch(e){}
+    });
+  }
+  function reveal(){
+    if (revealed) return;
+    revealed = true;
+    clearTimeout(hardTimer);
+    hero.classList.add('is-revealed');
+    drawThumbs();
+  }
+  function matchBackdrop(){
+    try{
+      var c = document.createElement('canvas'); c.width = c.height = 1;
+      var x = c.getContext('2d');
+      x.drawImage(v, v.videoWidth*0.94, v.videoHeight*0.12, 1, 1, 0, 0, 1, 1);
+      var d = x.getImageData(0,0,1,1).data;
+      var root = document.documentElement.style;
+      root.setProperty('--bg', 'rgb('+d[0]+','+d[1]+','+d[2]+')');
+      /* ghost title: ~82-86% of the backdrop so it is clearly visible */
+      root.setProperty('--ghost', 'rgb('+Math.round(d[0]*.82)+','+Math.round(d[1]*.86)+','+Math.round(d[2]*.84)+')');
+    }catch(e){ /* file:// or tainted canvas — keep CSS fallbacks */ }
+  }
+  function begin(){
+    if (started) return;
+    started = true;
+    matchBackdrop();
+    if (reduce){
+      try{ if (isFinite(v.duration)) v.currentTime = Math.max(0, v.duration - 0.05); }catch(e){}
+      hero.classList.add('is-revealed'); revealed = true;
+      setTimeout(drawThumbs, 150);
+      v.addEventListener('seeked', drawThumbs, {once:true});
+      return;
+    }
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(reveal);
+  }
+  function arm(){
+    clearTimeout(hardTimer);
+    hardTimer = setTimeout(reveal, 1500);
+  }
+
+  v.addEventListener('timeupdate', function(){ if (!revealed && v.currentTime >= REVEAL_AT) reveal(); });
+  v.addEventListener('ended', function(){ reveal(); drawThumbs(); });
+  v.addEventListener('error', reveal);
+  v.addEventListener('loadeddata', begin);
+  arm();
+  if (v.readyState >= 2) begin();
+  if (reduce) v.addEventListener('loadedmetadata', begin);
+
+  document.getElementById('replay').addEventListener('click', function(){
+    revealed = false;
+    hero.classList.remove('is-revealed');
+    canvases.forEach(function(c){ c.classList.remove('on'); });
+    try{ v.currentTime = 0; }catch(e){}
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(reveal);
+    arm();
+  });
+
+  // Keep the hero video playing when coming back to the page
+  // (browser Back button restores the page from cache with the video paused).
+  function resume(){
+    if (reduce) return;
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function(){});
+  }
+  window.addEventListener('pageshow', function(e){
+    if (e.persisted){ reveal(); drawThumbs(); }
+    resume();
+  });
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden) resume();
+  });
+  v.addEventListener('pause', function(){
+    if (document.hidden || v.ended || reduce) return;
+    setTimeout(function(){ if (v.paused && !document.hidden) resume(); }, 120);
+  });
+
+  // Below-the-fold reveals
+  var els = document.querySelectorAll('.sr');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.18});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
